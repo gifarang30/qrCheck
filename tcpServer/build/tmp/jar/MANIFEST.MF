@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Main-Class: com.qrCheck.tcpServer.TcpServer
+Class-Path: libs/mybatis-spring-boot-starter-2.2.2.jar libs/spring-boot-
+ starter-jdbc-2.6.6.jar libs/spring-boot-starter-log4j2-2.6.6.jar libs/n
+ etty-all-4.1.48.Final.jar libs/json-simple-1.1.1.jar libs/log4jdbc-remi
+ x-0.2.7.jar libs/HikariCP-4.0.3.jar libs/log4j-slf4j-impl-2.17.2.jar li
+ bs/jul-to-slf4j-1.7.36.jar libs/slf4j-api-1.7.36.jar libs/jjwt-0.9.1.ja
+ r libs/jackson-databind-2.13.2.2.jar libs/jackson-annotations-2.13.2.ja
+ r libs/jackson-core-2.13.2.jar libs/jackson-module-kotlin-2.13.2.jar li
+ bs/kotlin-reflect-1.6.10.jar libs/kotlin-stdlib-jdk8-1.6.10.jar libs/co
+ mmons-codec-1.15.jar libs/commons-dbcp2-2.9.0.jar libs/commons-io-2.11.
+ 0.jar libs/mysql-connector-java-8.0.28.jar libs/jaxb-api-2.4.0-b180830.
+ 0359.jar libs/mariadb-java-client-3.0.3.jar libs/spring-boot-starter-2.
+ 6.6.jar libs/spring-jdbc-5.3.18.jar libs/log4j-core-2.17.2.jar libs/log
+ 4j-jul-2.17.2.jar libs/mybatis-spring-boot-autoconfigure-2.2.2.jar libs
+ /mybatis-3.5.9.jar libs/mybatis-spring-2.0.7.jar libs/junit-4.13.2.jar 
+ libs/kotlin-stdlib-jdk7-1.6.10.jar libs/kotlin-stdlib-1.6.10.jar libs/c
+ ommons-pool2-2.11.1.jar libs/javax.activation-api-1.2.0.jar libs/spring
+ -boot-autoconfigure-2.6.6.jar libs/spring-boot-2.6.6.jar libs/jakarta.a
+ nnotation-api-1.3.5.jar libs/spring-tx-5.3.18.jar libs/spring-context-5
+ .3.18.jar libs/spring-aop-5.3.18.jar libs/spring-beans-5.3.18.jar libs/
+ spring-expression-5.3.18.jar libs/spring-core-5.3.18.jar libs/snakeyaml
+ -1.29.jar libs/log4j-api-2.17.2.jar libs/hamcrest-core-2.2.jar libs/ann
+ otations-13.0.jar libs/kotlin-stdlib-common-1.6.10.jar libs/spring-jcl-
+ 5.3.18.jar libs/hamcrest-2.2.jar
+

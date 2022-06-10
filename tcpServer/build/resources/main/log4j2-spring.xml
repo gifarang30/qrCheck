@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    
+    <Properties>
+        <Property name="logNm">Spring Log4j2 Test</Property>
+        <Property name="defaultPattern">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red, ERROR=red,
+            INFO=green, DEBUG=blue} [%C] %style{[%t]}{yellow} %m%n </Property>
+        <Property name="smallPattern">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red, ERROR=red,
+            INFO=green, DEBUG=blue} %m%n </Property>
+        <Property name="queryPattern">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red, ERROR=red,
+            INFO=green, DEBUG=blue} %m%n </Property>
+        <Property name="resultsetPattern">%m%n </Property>
+    </Properties>
+
+    <Appenders>
+        <console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${smallPattern}"/>
+        </console>
+        <console name="query" target="SYSTEM_OUT">
+            <PatternLayout pattern="${queryPattern}" />
+        </console>
+        <console name="resultset" target="SYSTEM_OUT">
+            <PatternLayout pattern="${resultsetPattern}" />
+        </console>
+        <RollingFile name="file" fileName="logs/${logNm}.log" filePattern="logs/${logNm}_%d{yyyy-MM-dd}_%i.log.gz">
+            <PatternLayout pattern="${defaultPattern}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200KB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10" fileIndex="min"/>
+        </RollingFile>
+    </Appenders>
+    <!--    실제 Logger-->
+    <Loggers>
+        <Root level="ERROR">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="file" />
+        </Root>
+        <Logger name="io.netty" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="com.qrCheck" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="jdbc.sqlonly" level="INFO" additivity="false">
+            <AppenderRef ref="query" />
+            <RegexFilter regex="(?s).*==IGNORE_LOG==.*" onMatch="DENY" onMismatch="NEUTRAL" useRawMsg="tre" />
+        </Logger>
+        <Logger name="jdbc.resultsettable" level="INFO" additivity="false">
+            <AppenderRef ref="resultset" />
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qrCheck.tcpServer.assets.services.kumo.KumoMapper">
+
+    <select id="getCarInfo" parameterType="hashMap" resultType="carVO">
+        SELECT M1.CAR_SEQ
+              ,M1.CAR_NUM
+              ,M1.CREW_NAME
+              ,M1.CREW_TEL
+          FROM JW_CAR M1
+         WHERE FLAG = 1
+           <if test="carNum != null">
+           AND M1.CAR_NUM = #{carNum}
+           </if>
+           <if test="carSeq != null">
+           AND M1.CAR_SEQ = #{carSeq}
+           </if>
+         ORDER BY M1.CAR_SEQ DESC
+         LIMIT 1
+    </select>
+
+    <select id="getRsvInfo" parameterType="hashMap" resultType="rsvVO">
+        SELECT M1.MEMBER_ID
+              ,M1.MEMBER_NM
+              ,CASE
+                 WHEN M1.UPDOWN_CD = 'up' THEN M2.UP_CAR_SEQ
+                 ELSE M2.UP_CAR_SEQ
+               END CAR_SEQ_STR
+              ,M1.car_order AS CAR_ORDER
+              ,M1.SEAT_NUM
+          FROM JW_ROUTE_RESERVE M1
+          LEFT JOIN JW_ROUTE M2 ON M2.ROUTE_SEQ = M1.ROUTE_SEQ
+          LEFT JOIN JW_ROUTE_WAVE M3 ON M3.COM_SEQ = M1.COM_SEQ
+                                    AND M3.ROUTE_SEQ = M1.ROUTE_SEQ
+                                    AND M3.WAVE_YEAR = M1.WAVE_YEAR
+                                    AND M3.WAVE_WEEK = M1.WAVE_WEEK
+         WHERE M1.rsv_seq = #{rsvSeq}
+           AND M1.MEMBER_ID = #{memberId}
+           AND M1.RSV_CANCEL_YN = 'N'
+            /*AND (CASE
+                   WHEN M1.UPDOWN_CD = 'up' THEN M3.UP_RUN_DATE
+                   ELSE M3.DOWN_RUN_DATE
+                 END) = '2020-01-05'*/
+           AND (CASE
+                  /* 통학여부(RSV_SCH_YN) Y 인 경우 기간 참조 */
+                  WHEN (DATE_FORMAT(SYSDATE(), '%Y-%m-%d') BETWEEN M1.RSV_RES_SDATE AND M1.RSV_RES_EDATE)
+                   AND (DATE_FORMAT(SYSDATE(), '%H:%i') BETWEEN M1.RSV_RES_STIME AND M1.RSV_RES_ETIME)
+                   AND M1.RSV_SCH_YN = 'Y' THEN 1
+                  /* 상행, 하행 운행일자 참조 */
+                  WHEN M1.RSV_SCH_YN = 'N' AND M1.UPDOWN_CD = 'up'
+                   AND M3.UP_RUN_DATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d') THEN 1
+                  WHEN M1.RSV_SCH_YN = 'N' AND M1.UPDOWN_CD = 'down'
+                   AND M3.DOWN_RUN_DATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d') THEN 1
+                  ELSE 0
+                END) = 1
+         ORDER BY M1.RSV_SEQ DESC
+         LIMIT 1
+    </select>
+
+    <insert id="insertCarPos" parameterType="carPosVO">
+        INSERT INTO JW_CAR_POS
+                   (CAR_SEQ
+                   ,REG_TIMESTAMP
+                   ,REG_DATE
+                   ,REG_HOUR
+                   ,CAR_LAT
+                   ,CAR_LNG)
+             VALUES(#{carSeq}
+                   ,UNIX_TIMESTAMP()
+                   ,DATE_FORMAT(SYSDATE(), '%y-%m-%d')
+                   ,DATE_FORMAT(SYSDATE(), '%H')
+                   ,#{carLat}
+                   ,#{carLng})
+    </insert>
+
+    <insert id="insertQrChkIn" parameterType="rsvQrChkInVO">
+        INSERT INTO JW_RSV_QR_CHK_IN
+                   (RSV_SEQ
+                   ,RSV_CD
+                   ,REG_TIMESTAMP
+                   ,REG_DATE
+                   ,REG_HOUR)
+             VALUES(#{rsvSeq}
+                   ,#{rsvCd}
+                   ,UNIX_TIMESTAMP()
+                   ,DATE_FORMAT(SYSDATE(), '%y-%m-%d')
+                   ,DATE_FORMAT(SYSDATE(), '%H'))
+    </insert>
+
+    <select id="getThemeInfo" parameterType="hashMap" resultType="themeVO">
+        SELECT M1.THEME_RES_ID
+              ,M1.THEME_RES_NAME
+              ,M2.THEME_NAME
+          FROM JW_THEME_RES M1
+          LEFT JOIN JW_THEME M2 ON M2.THEME_ID = M1.THEME_ID
+         WHERE M1.THEME_RES_ID = #{themeResId}
+           AND M1.RSV_PAY_YN = 'Y'
+           AND M1.FLAG = 1
+           AND M2.RUN_DATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d')
+         LIMIT 1
+    </select>
+
+</mapper>

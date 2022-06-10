@@ -1,0 +1,27 @@
+# 공통 설정 프로퍼티
+prop-cmm:
+
+  # TCP boss 수
+  tcp-boss-cnt: 1
+
+  # TCP worker 수
+  tcp-worker-cnt: 20
+
+  # TCP 동시에 수용 가능한 소켓 연결 요청수
+  tcp-con-soc-cnt: 100
+
+  # TCP 서버 포트 번호
+  tcp-server-host: 0.0.0.0
+
+  # TCP 서버 포트 번호
+  tcp-server-port: 29001
+
+  # TCP 응답 버퍼 사이즈
+  tcp-buff-size: 4096
+
+  # 전문 전체 바이트 수 정보 길이
+  msg-total-byte-len: 4
+
+  # 전문 Charset
+  msg-charset: UTF-8
+

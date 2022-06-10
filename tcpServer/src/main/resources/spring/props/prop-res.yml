@@ -1,0 +1,20 @@
+# 응답 설정 프로퍼티
+prop-res:
+
+  # 응답 코드
+  res-cd:
+
+    cd-ok: 100                       # 정상
+
+    cd-jwt-decode-error: 701         # JWT 디코드 에러
+
+    cd-valid: 801                    # 시스템 체크에 걸림
+    cd-qr-error: 811                 # QR 코드 오류
+
+    cd-error: 999                    # 오류
+
+  # 응답 문자열
+  res-msg:
+    msg-ok: ok
+    msg-y: Y
+    msg-n: N

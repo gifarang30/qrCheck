@@ -1,0 +1,15 @@
+hazelcast:
+  cluster-name: aiWebFrame
+#  management-center:
+#    enabled: true
+#    url: http://localhost:8082/mancenter
+  network:
+    port:
+      port: 5701
+    join:
+      multicast:
+        enabled: false
+      tcp-ip:
+        enabled: true
+        member-list:
+          - 127.0.0.1:5701

@@ -1,0 +1,32 @@
+server:
+  address: localhost
+
+spring:
+
+  servlet:
+
+    multipart:
+
+      # 최대 파일 사이즈 용량 제한
+      max-file-size: 30MB
+      max-request-size: 30MB
+
+  config:
+
+    # 설정 yml 추가
+    import:
+
+      # 공통 설정 프로퍼티
+      - classpath:spring/props/prop-cmm.yml
+
+      # OS 명령어 관련 프로퍼티
+      - classpath:spring/props/prop-cmd.yml
+
+      # 암복호화 관련 설정 프로퍼티
+      - classpath:spring/props/prop-crypt.yml
+
+      # 데이터소스 설정 프로퍼티
+      - classpath:spring/props/prop-datasource.yml
+
+      # 응답 설정 프로퍼티
+      - classpath:spring/props/prop-res.yml
